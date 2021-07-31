@@ -1,9 +1,9 @@
-package com.github.windbird123.smartclient
+package com.github.windbird123.smartclient.core
 
 import zio.duration._
 import zio.test.Assertion._
+import zio.test._
 import zio.test.environment.TestClock
-import zio.test.{DefaultRunnableSpec, ZSpec, _}
 import zio.{Ref, Task}
 
 object AddressFactoryTest extends DefaultRunnableSpec {

@@ -1,4 +1,4 @@
-package com.github.windbird123.smartclient
+package com.github.windbird123.smartclient.core
 
 import com.typesafe.scalalogging.LazyLogging
 import scalaj.http.{HttpRequest, HttpResponse}

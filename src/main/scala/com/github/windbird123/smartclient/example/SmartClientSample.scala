@@ -1,5 +1,6 @@
-package com.github.windbird123.smartclient
+package com.github.windbird123.smartclient.example
 
+import com.github.windbird123.smartclient.core.{AddressDiscover, RetryPolicy, SmartClient}
 import scalaj.http.Http
 import zio._
 import zio.blocking.Blocking

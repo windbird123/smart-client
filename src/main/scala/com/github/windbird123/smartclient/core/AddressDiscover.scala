@@ -1,4 +1,4 @@
-package com.github.windbird123.smartclient
+package com.github.windbird123.smartclient.core
 
 import zio._
 

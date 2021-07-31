@@ -1,11 +1,11 @@
-package com.github.windbird123.smartclient
-
-import java.net.SocketTimeoutException
+package com.github.windbird123.smartclient.core
 
 import com.typesafe.scalalogging.LazyLogging
 import scalaj.http.{HttpRequest, HttpResponse}
 import zio._
 import zio.duration._
+
+import java.net.SocketTimeoutException
 
 trait HttpAction {
   def tryExecute(r: HttpRequest, maxRetryNumberWhenTimeout: Int): Task[HttpResponse[Array[Byte]]]

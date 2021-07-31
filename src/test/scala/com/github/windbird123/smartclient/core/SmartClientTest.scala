@@ -1,11 +1,11 @@
-package com.github.windbird123.smartclient
+package com.github.windbird123.smartclient.core
 
 import scalaj.http.{Http, HttpRequest, HttpResponse}
 import zio._
 import zio.duration._
 import zio.test.Assertion._
+import zio.test._
 import zio.test.environment.TestClock
-import zio.test.{DefaultRunnableSpec, ZSpec, _}
 
 import java.net.{SocketException, SocketTimeoutException}
 import java.util.concurrent.atomic.AtomicInteger
@@ -35,13 +35,14 @@ object SmartClientTest extends DefaultRunnableSpec {
     },
     /**
      * 주의: AddressDiscover.fetch() 를 구현할때 아래와 같은 형태로 구현하면 안된다.
-     *   if (..) Task(..) else Task(..)
+     * if (..) Task(..) else Task(..)
      * ZIO schedule 은 effect 만을 주기적으로 수행한다 !!!
      */
     testM("waitUntilServerIsAvailable=true 이면, 사용 가능한 주소가 있을 때 까지 기다렸다 수행하도록 한다.") {
       val addressDiscover = new AddressDiscover {
         val tryCount                 = new AtomicInteger(0)
         override val periodSec: Long = 1L
+
         override def fetch(): Task[Seq[String]] = Task {
           if (tryCount.getAndIncrement() < 3) Seq.empty[String] else Seq("http://a.b.c")
         }
@@ -178,8 +179,10 @@ object SmartClientTest extends DefaultRunnableSpec {
       val retryPolicy = new RetryPolicy {
         override val maxRetryNumberWhenTimeout: Int          = 1
         override val retryToAnotherAddressAfterSleepMs: Long = 1000L
+
         override def isWorthRetryToAnotherAddress(smartResponse: HttpResponse[Array[Byte]]): Boolean =
           if (smartResponse.code == 503) true else false
+
         override val maxRetryNumberToAnotherAddress: Int = Integer.MAX_VALUE
       }
 
@@ -215,8 +218,10 @@ object SmartClientTest extends DefaultRunnableSpec {
       val retryPolicy = new RetryPolicy {
         override val maxRetryNumberWhenTimeout: Int          = 1
         override val retryToAnotherAddressAfterSleepMs: Long = 1000L
+
         override def isWorthRetryToAnotherAddress(smartResponse: HttpResponse[Array[Byte]]): Boolean =
           if (smartResponse.code == 503) true else false
+
         override val maxRetryNumberToAnotherAddress: Int = 5
       }
 
@@ -271,7 +276,7 @@ object SmartClientTest extends DefaultRunnableSpec {
 
       val retryPolicy = new RetryPolicy {
         override val waitUntilServerIsAvailable: Boolean = false
-        override val excludeFailedAddress: Boolean      = false
+        override val excludeFailedAddress: Boolean       = false
         override val maxRetryNumberToAnotherAddress: Int = 0
       }
 
@@ -295,7 +300,7 @@ object SmartClientTest extends DefaultRunnableSpec {
 
       val retryPolicy = new RetryPolicy {
         override val waitUntilServerIsAvailable: Boolean = false
-        override val excludeFailedAddress: Boolean      = true
+        override val excludeFailedAddress: Boolean       = true
         override val maxRetryNumberToAnotherAddress: Int = 0
       }
 

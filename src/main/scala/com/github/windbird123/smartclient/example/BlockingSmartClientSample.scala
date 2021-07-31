@@ -1,5 +1,6 @@
-package com.github.windbird123.smartclient
+package com.github.windbird123.smartclient.example
 
+import com.github.windbird123.smartclient.core.{AddressDiscover, BlockingSmartClient, RetryPolicy}
 import scalaj.http.{Http, HttpResponse}
 import zio.{Task, UIO}
 
@@ -8,14 +9,16 @@ import scala.util.{Failure, Success, Try}
 object BlockingSmartClientSample {
   def main(args: Array[String]): Unit = {
     val retryPolicy = new RetryPolicy {
-      override val waitUntilServerIsAvailable: Boolean                                             = true
-      override val maxRetryNumberWhenTimeout: Int                                                  = 5
-      override val retryToAnotherAddressAfterSleepMs: Long                                         = 10000L
+      override val waitUntilServerIsAvailable: Boolean     = true
+      override val maxRetryNumberWhenTimeout: Int          = 5
+      override val retryToAnotherAddressAfterSleepMs: Long = 10000L
+
       override def isWorthRetryToAnotherAddress(smartResponse: HttpResponse[Array[Byte]]): Boolean = false
     }
 
     val addressDiscover: AddressDiscover = new AddressDiscover {
-      override val periodSec: Long            = 300L
+      override val periodSec: Long = 300L
+
       override def fetch(): Task[Seq[String]] = UIO(Seq("https://jsonplaceholder.typicode.com"))
     }
 
