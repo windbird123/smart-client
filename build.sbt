@@ -21,9 +21,9 @@ libraryDependencies ++= Seq(
   "org.scalaj"                 %% "scalaj-http"    % "2.4.2",
   "com.typesafe.scala-logging" %% "scala-logging"  % "3.9.2",
   "dev.zio"                    %% "zio"            % "1.0.4",
-  "dev.zio"                    %% "zio-test"       % "1.0.4",
-  "dev.zio"                    %% "zio-test-sbt"   % "1.0.4",
-  "org.scalatest"              %% "scalatest"      % "3.0.5"
+  "dev.zio"                    %% "zio-test"       % "1.0.4" % "test",
+  "dev.zio"                    %% "zio-test-sbt"   % "1.0.4" % "test",
+  "org.scalatest"              %% "scalatest"      % "3.0.5" % "test"
 )
 
 testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
