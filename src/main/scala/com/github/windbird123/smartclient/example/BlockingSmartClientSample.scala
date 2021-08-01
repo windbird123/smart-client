@@ -15,7 +15,7 @@ object BlockingSmartClientSample {
       // - 리턴값의 주소 정보로 host, port 까지만 지정해 사용하는 것을 권장
       //     예: Task{ Seq("http://my.api.server:8000", "http://my.api.server:9000") }
       // - zio 의 Task 에 익숙하지 않을 경우, Task 를 scala.util.Try 로 생각하고 작성해도 좋다.
-      // - Task 안에 discovery service 를 통해 즈소를 가져와 리턴하는 코드를 넣는 것도 가능하다.
+      // - Task 안에 discovery service 를 통해 주소를 가져와 리턴하는 코드를 넣는 것도 가능하다.
       override def fetch(): Task[Seq[String]] = Task(Seq("https://jsonplaceholder.typicode.com"))
     }
 
